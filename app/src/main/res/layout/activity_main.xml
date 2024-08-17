@@ -3,76 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/pgLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="14dp"
+        android:visibility="gone" />
+
     <TextView
+        android:id="@+id/tvDriverHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Driver"
+        android:text="State Selection"
         android:textSize="20dp"
-        android:id="@+id/tvDriverHeader"
-        android:textStyle="bold"
-         />
+        android:textStyle="bold" />
 
-
-    <androidx.cardview.widget.CardView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvColorList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cvDriverInfo"
-        app:cardCornerRadius="12dp"
-        android:layout_marginTop="14dp"
-
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
-        <LinearLayout
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="normal"
-                android:text="U Ba"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="normal"
-                android:textSize="12sp"
-                android:text="Licence : abc29929#"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvDriverHeader"
-        app:cardCornerRadius="12dp"
-        android:layout_marginTop="14dp"
-        android:id="@+id/cvRiderInfo"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
-        <LinearLayout
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="normal"
-                android:text="Rider : U Myo"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="normal"
-                android:textSize="12sp"
-                android:text="Location : NorthOkkalapa"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="40"
+        tools:listitem="@layout/item_view_color" />
 
 </LinearLayout>

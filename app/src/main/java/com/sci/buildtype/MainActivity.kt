@@ -1,15 +1,21 @@
 package com.sci.buildtype
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 
 class MainActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,25 +26,52 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Glide.with -->> remove
-        // Fb.init --> > remove
-        // GoogleAuth.generateToken ---> remove
+        val viewModel = ViewModelProvider(this).get(
+            ColorViewModel::class.java
+        )
+        val colorAdapter = ColorAdapter(
+            onClickItem = {
+                viewModel.selectItem(it)
+            }
+        )
+        val rvColorList = findViewById<RecyclerView>(R.id.rvColorList)
+            .apply {
+                adapter = colorAdapter
+            }
 
-        calculate(10, 20)
+        val pgLoading = findViewById<CircularProgressIndicator>(R.id.pgLoading)
 
-        if (!BuildConfig.showDriverProfile) {
-            findViewById<CardView>(R.id.cvDriverInfo).isGone = true
+        // state , loading , success , list update --> viewModel
+        // user event -> state update
+
+
+        viewModel.uiState.observe(this) {
+            when (it) {
+                ColorUiState.Loading -> {
+                    pgLoading.visibility = View.VISIBLE
+                }
+
+                is ColorUiState.Success -> {
+                    pgLoading.visibility = View.GONE
+                    colorAdapter.updateList(it.colors)
+                }
+
+                is ColorUiState.UpdateColorList -> {
+                    pgLoading.visibility = View.GONE
+                    colorAdapter.updateList(it.colors)
+                }
+            }
         }
-
     }
 
     // Remove
-    fun calculate(a: Int, b: Int) = a + b
+
 
     //Glide
     //Fb sdk
     //Goolgle auth
 }
+
 
 // Build Type --> configuration
 
@@ -62,5 +95,7 @@ class MainActivity : AppCompatActivity() {
 // driver , rider
 // free , premium
 // staging , production
+
+
 
 
